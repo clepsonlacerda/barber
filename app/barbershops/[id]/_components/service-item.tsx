@@ -245,7 +245,7 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                           </div>
                         )}
 
-                        {date && (
+                        {hour && (
                           <div className="flex justify-between">
                             <h3 className="text-gray-400 text-sm">Horário</h3>
                             <h4 className="text-sm">
@@ -254,14 +254,12 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                           </div>
                         )}
 
-                        {date && (
-                          <div className="flex justify-between">
-                            <h3 className="text-gray-400 text-sm">Barbearia</h3>
-                            <h4 className="text-sm">
-                              {barbershop.name}
-                            </h4>
-                          </div>
-                        )}
+                        <div className="flex justify-between">
+                          <h3 className="text-gray-400 text-sm">Barbearia</h3>
+                          <h4 className="text-sm">
+                            {barbershop.name}
+                          </h4>
+                        </div>
                       </CardContent>
                     </Card>
                   </div>

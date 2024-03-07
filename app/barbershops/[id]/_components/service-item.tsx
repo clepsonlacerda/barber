@@ -166,7 +166,7 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className="p-0" >
+                <SheetContent className="p-0 overflow-y-scroll" >
                   <SheetHeader className="text-left px-5 py-6 border-b border-solid border-secondary">
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
@@ -264,7 +264,7 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                     </Card>
                   </div>
 
-                  <SheetFooter className="px-5">
+                  <SheetFooter className="px-5 pb-5">
                     <Button onClick={handleBookingSubmit} disabled={!hour || !date || submitIsLoading}>
                       {submitIsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       Confirmar reserva

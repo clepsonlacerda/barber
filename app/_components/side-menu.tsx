@@ -1,6 +1,6 @@
 "use client"
 
-import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
+import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon, PlusCircleIcon, UserIcon } from "lucide-react";
 import { SheetHeader, SheetTitle } from "./ui/sheet";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -56,12 +56,21 @@ const SideMenu = () => {
         </Button>
 
         {data?.user && (
-          <Button variant="outline" className="justify-start" asChild>
-            <Link href="/bookings">
-              <CalendarIcon size={18} className="mr-2" />
-              Agendamentos
-            </Link>
-          </Button>
+          <>
+            <Button variant="outline" className="justify-start" asChild>
+              <Link href="/bookings">
+                <CalendarIcon size={18} className="mr-2" />
+                Agendamentos
+              </Link>
+            </Button>
+
+            <Button variant="outline" className="justify-start" asChild>
+              <Link href="/barbershops/register">
+                <PlusCircleIcon size={18} className="mr-2" />
+                Cad. Barbearia
+              </Link>
+            </Button>
+          </>
         )}
       </div>
     </>

@@ -13,6 +13,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
 import { useState } from "react";
 import { UploadDropzone } from "@/utils/uploadthing";
+import Image from "next/image";
+import { Loader2, XIcon } from "lucide-react";
+import { utapi } from "../[id]/_actions/delete-image";
+import axios from 'axios';
 
 const formSchema = z.object({
   name: z.string({
@@ -29,6 +33,8 @@ interface barbershopRegisterProps {
 
 const BarbershopRegister = () => {
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+  const [deleteIsLoading, setDeleteIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,6 +68,32 @@ const BarbershopRegister = () => {
 
     setImageUrl('');
   }
+
+  const handleDeleteImage = async () => {
+    setDeleteIsLoading(true)
+
+    try {
+      await axios.delete("/api/uploadthing", {
+        data: {
+          url: imageUrl,
+        },
+      }).finally(() => {
+        setDeleteIsLoading(false)
+      });
+    } finally {
+
+    }
+
+    toast("Imagem Deletada!");
+    console.log("deletado")
+
+    setImageUrl("")
+  }
+
+  const handleLoadingComplete = () => {
+    console.log('called')
+    setLoading(false);
+  };
 
   return (
     <div>
@@ -98,25 +130,49 @@ const BarbershopRegister = () => {
             />
           </div>
 
-          <UploadDropzone
-            content={{}}
-            className="border-s border-input mt-4 cursor-pointer"
-            appearance={{
-              button: {
-                backgroundColor: '#8161ff',
-              }
-            }}
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              // Do something with the response
-              console.log("Files: ", res);
-              setImageUrl(res[0].url);
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
-            }}
-          />
+          <div className="grid grid-rows-2 grid-cols-1 gap-4 pt-4 md:grid-rows-1 md:grid-cols-2">
+            <UploadDropzone
+              content={{}}
+              className="border-s border-input cursor-pointer mt-0"
+              appearance={{
+                button: {
+                  backgroundColor: '#8161ff',
+                }
+              }}
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                // Do something with the response
+                console.log("Files: ", res);
+                setImageUrl(res[0].url);
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
+
+            <div className="border rounded-md flex items-center justify-center relative">
+              {imageUrl && (
+                <Button onClick={handleDeleteImage} type="button" variant="outline" className="z-50 absolute top-4 left-4">
+                  <XIcon />
+                  {deleteIsLoading && <p className="ml-2">Excluindo...</p>}
+                </Button>
+              )}
+
+              {imageUrl && (
+                <div>
+                  {loading && <p><Loader2 className="z-50 h-7 w-7 absolute animate-spin left-[50%] top-[50%]" /></p>}
+                  <Image
+                    src={imageUrl}
+                    alt=""
+                    width={150}
+                    height={100}
+                    onLoadingComplete={handleLoadingComplete}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
 
           <Button
             type="submit"

@@ -15,7 +15,6 @@ import { useState } from "react";
 import { UploadDropzone } from "@/utils/uploadthing";
 import Image from "next/image";
 import { Loader2, XIcon } from "lucide-react";
-import { utapi } from "../[id]/_actions/delete-image";
 import axios from 'axios';
 
 const formSchema = z.object({

@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { generateDayTimeList } from "../_helpers/hours";
 import { addDays, format, setHours, setMinutes } from "date-fns";
 import { saveBooking } from "../_actions/save-booking";
-import { Loader2 } from "lucide-react";
+import { Loader2, PencilIcon } from "lucide-react";
 import { toast } from "sonner";
 import { getDayBooking } from "../_actions/get-day-booking";
 import { useRouter } from "next/navigation";
@@ -131,6 +131,10 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
     });
   }, [date, dayBookings]);
 
+  const handleEditService = () => {
+    router.push(`/barbershops/services/${service.id}`);
+  }
+
   return (
     <Card>
       <CardContent className="p-3">
@@ -145,6 +149,12 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
               }}
               alt={service.name}
             />
+            <Button
+              size="sm" variant="outline" className="z-50 absolute top-1 left-1 opacity-70"
+              onClick={handleEditService}
+            >
+              <PencilIcon size={14} />
+            </Button>
           </div>
 
           <div className="flex flex-col w-full">

@@ -20,6 +20,10 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
     router.replace("/");
   }
 
+  const handleRegisterService = () => {
+    router.push(`/barbershops/services/${barbershop.id}`);
+  }
+
   return (
     <div>
       <div className="h-[250px] w-full relative">
@@ -65,6 +69,11 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
           <p className="text-sm">
             5,0 (899 avaliações)
           </p>
+        </div>
+        <div className="mt-5">
+          <Button variant="secondary" onClick={handleRegisterService}>
+            Novo Serviço
+          </Button>
         </div>
       </div>
     </div>

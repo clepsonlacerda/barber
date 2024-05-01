@@ -59,22 +59,6 @@ const Services = ({ params }: ServicesProps) => {
     return null;
   }
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      price: 0,
-      description: "",
-    },
-    values: {
-      id: serviceSelected.id,
-      description: serviceSelected.description,
-      name: serviceSelected.name,
-      price: Number(serviceSelected.price),
-      barbershopId: serviceSelected.barbershopId,
-    }
-  });
-
   const paramId = params.id;
 
   useEffect(() => {
@@ -125,6 +109,22 @@ const Services = ({ params }: ServicesProps) => {
     } finally {
     }
   }, []);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      price: 0,
+      description: "",
+    },
+    values: {
+      id: serviceSelected.id,
+      description: serviceSelected.description,
+      name: serviceSelected.name,
+      price: Number(serviceSelected.price),
+      barbershopId: serviceSelected.barbershopId,
+    }
+  });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const { id, description, name, price, barbershopId } = values;

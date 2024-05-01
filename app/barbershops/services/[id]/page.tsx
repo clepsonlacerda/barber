@@ -57,7 +57,6 @@ const Services = ({ params }: ServicesProps) => {
 
   if (!params.id) {
     return null;
-  } else {
   }
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -55,61 +55,6 @@ const Services = ({ params }: ServicesProps) => {
   const [deleteIsLoading, setDeleteIsLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  if (!params.id) {
-    return null;
-  }
-
-  const paramId = params.id;
-
-  useEffect(() => {
-    setLoadUpdateService(true);
-
-    try {
-
-      const barbershopExists = async () => {
-
-        try {
-
-          const [barbershopPresent, servicePresent] = await Promise.all([
-            findBarbershop({ id: paramId }),
-            findService({ id: paramId })
-          ]);
-
-          if (barbershopPresent || servicePresent) {
-
-            if (servicePresent) {
-              setServiceSelected({
-                description: servicePresent.description,
-                name: servicePresent.name,
-                price: servicePresent.price,
-                id: servicePresent.id,
-                imageUrl: servicePresent.imageUrl,
-                barbershopId: servicePresent.barbershopId
-              });
-            }
-
-          } else {
-            router.push("/");
-          }
-        } finally {
-          setLoadUpdateService(false);
-          // console.log('finally')
-        }
-
-      }
-
-
-      const service = async () => {
-        return await findService({ id: paramId });
-      }
-      barbershopExists();
-      service();
-    } catch (error) {
-
-    } finally {
-    }
-  }, []);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -125,6 +70,52 @@ const Services = ({ params }: ServicesProps) => {
       barbershopId: serviceSelected.barbershopId,
     }
   });
+
+  const paramId = params.id;
+
+  useEffect(() => {
+    setLoadUpdateService(true);
+
+    const barbershopExists = async () => {
+
+      if (!paramId) {
+        router.push("/");
+        return;
+      }
+
+      try {
+
+        const [barbershopPresent, servicePresent] = await Promise.all([
+          findBarbershop({ id: paramId }),
+          findService({ id: paramId })
+        ]);
+
+        if (barbershopPresent || servicePresent) {
+
+          if (servicePresent) {
+            setServiceSelected({
+              description: servicePresent.description,
+              name: servicePresent.name,
+              price: servicePresent.price,
+              id: servicePresent.id,
+              imageUrl: servicePresent.imageUrl,
+              barbershopId: servicePresent.barbershopId
+            });
+          }
+
+        } else {
+          router.push("/");
+        }
+      } finally {
+        setLoadUpdateService(false);
+        // console.log('finally')
+      }
+
+    }
+
+    barbershopExists();
+
+  }, []);
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const { id, description, name, price, barbershopId } = values;

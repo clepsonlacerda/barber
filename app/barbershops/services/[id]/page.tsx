@@ -101,6 +101,8 @@ const Services = ({ params }: ServicesProps) => {
               imageUrl: servicePresent.imageUrl,
               barbershopId: servicePresent.barbershopId
             });
+
+            setImageUrl(servicePresent.imageUrl);
           }
 
         } else {
